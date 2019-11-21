@@ -1,0 +1,13 @@
+.v-datatable__progress {
+  position: relative;
+  th {
+    .v-progress-linear {
+      position: absolute;
+    }
+  }
+}
+.v-dialog {
+  &.v-dialog-adaptive {
+    width: auto;
+  }
+}

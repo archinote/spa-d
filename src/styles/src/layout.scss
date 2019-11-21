@@ -1,0 +1,30 @@
+.dms-service-layout {
+  &.container {
+    padding: 16px;
+   // background: #eef4fa;
+    &.items-top{
+        align-items: start;
+    }
+  }
+  &-empty,
+  &-loading {
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.pull-right{
+  float: right;
+}
+.pull-left{
+  float: left;
+}
+.pointer{
+  cursor: pointer;
+}
+.dashed{
+  border-bottom: 1px dashed #333;
+}
+.dashed:hover{
+  border-bottom: 1px dashed transparent;
+}

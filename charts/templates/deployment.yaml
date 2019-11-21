@@ -1,0 +1,62 @@
+{{- $name := include "name" $ -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "name" . }}
+    chart: '{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_"  }}'
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "name" . }}
+      release: {{ .Release.Name }}
+  {{- if .Values.deployment.spec_aux }}
+{{ toYaml .Values.deployment.spec_aux | indent 2 }}
+  {{- end }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      {{- if .Values.deployment.pod_spec_aux }}
+{{ toYaml .Values.deployment.pod_spec_aux | indent 6 }}
+      {{- end }}
+      containers:
+        {{- range .Values.deployment.containers }}
+        {{- $cont_name := tpl .name $ }}
+        - name: {{ $cont_name }}
+          image: "{{ .image.repository }}:{{ tpl .image.tag $ }}"
+          imagePullPolicy: {{ .image.pullPolicy }}
+          {{- if or (eq $name $cont_name) (or .ports .ports_aux) }}
+          ports:
+            {{- if .ports }}
+{{ toYaml .ports | indent 12 }}
+            {{- else if eq $name $cont_name }}
+            - name: {{ template "name" $ }}
+              containerPort: {{ $.Values.service.internalPort }}
+              protocol: TCP
+            {{- end }}
+            {{- if .ports_aux }}
+{{ toYaml .ports_aux | indent 12 }}
+            {{- end }}
+          {{- end }}
+          {{- if or (not .spec_aux) (not .spec_aux.livenessProbe) }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ $.Values.service.internalPort }}
+          {{- end }}
+          {{- if or (not .spec_aux) (not .spec_aux.readinessProbe) }}
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: {{ $.Values.service.internalPort }}
+          {{- end }}
+          {{- if .spec_aux }}
+{{ tpl (toYaml .spec_aux) $ | indent 10 }}
+          {{- end }}
+        {{- end }}

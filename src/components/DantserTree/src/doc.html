@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Инструкция по использованию DantserTree</title>
+</head>
+<body>
+<p>Компонент dantsertree предназначен для отображения данных, структурированных в виде вложенного дерева.</p>
+<p>Компонент имеет 2 режима:</p>
+<ol>
+  <li>Обычный</li>
+  <li>Табличный</li>
+</ol>
+<p><strong>Формат данных представляет собой массив элементов <span style="text-decoration: underline;">source</span>. Отдельный элемент имеет следующий вид</strong></p>
+<pre class="example microlight"><span>{</span><span>
+      </span><span>"id"</span><span>:</span><span> </span><span>0</span><span>,</span><span>
+      </span><span>"name"</span><span>:</span><span> </span><span>"string"</span><span>,</span><span>
+      </span><span>"iconcolor"</span><span>:</span><span> </span><span>"string"</span><span>,</span><span>
+      </span><span>"icon"</span><span>:</span><span> </span><span>"string"</span><span>,</span><span>
+      </span><span>"data"</span><span>:</span><span> </span><span>{</span><span>
+        </span><span>"description"</span><span>:</span><span> </span><span>"string"</span><span>
+      </span><span>}</span><span>,</span><span>
+      </span><span>"children"</span><span>:</span><span> </span><span>[</span><span>
+        </span><span>null</span><span>
+      </span><span>]</span><span>
+</span><span>}<br /></span></pre>
+<p>Поля <strong>id</strong> и <strong>name</strong> - обязательны. <strong>Name</strong> соответствует тексту, отображаемого в виде заголовка элемента, а <strong>id</strong> представляет собой уникальный идентификатор элемента в дереве.</p>
+<p>Поле&nbsp;<strong>icon</strong> и&nbsp;<strong>iconcolor&nbsp;</strong>служат для назначения класса иконки (font-awesome или любого другого) и цвета иконки соответственно.</p>
+<p>Вложенные элементы передаются в массив&nbsp;<strong>children.&nbsp;</strong>Какие-либо вспомогательные данные можно передавать в служебном объекте <strong>data.</strong></p>
+<p>Кроме этих свойств в дерево можно передавать вторичные настройки:</p>
+<ol>
+  <li>checkbox - отображение чекбоксов (true, false)</li>
+  <li>selectMode - выбор элементов при клике на чекбокс ( 1- выбирается один элемент, 2 - выбираются несколько элементов, 3 - выбираются элементы с дочерними)</li>
+  <li>field - Отображение в виде элемента ввода в форме ( true, false )</li>
+  <li>label - При отображении в виде поля - название поля (string)</li>
+  <li>styles - Vue-объект со стилями, применяются к элементу дерева &lt;div&gt; в обычном режиме, или к элементу &lt;table&gt; в табличном режиме</li>
+</ol>
+<h4><strong>Drag-n-Drop</strong></h4>
+<p>Dantsertree поддерживает драг-н-дроп в обычном режиме (не табличном). Элементы перетаскиваются один внутрь другого. Для активации возможности перетаскивания элементов, нужно передать в дерево параметр <strong>dnd, </strong>равный&nbsp;<strong>true.</strong></p>
+<h4><strong>Таблица</strong></h4>
+<p>Для отображения дерева в табличном режиме нужно передать параметр <strong>table,&nbsp;</strong>который имеет следующую структуру:</p>
+<pre>{<br />  <span>className</span>:<span>'logo-table'</span><span>,<br /></span><span>  </span><span>indentation</span>: <span>20</span><span>,<br /></span><span>  </span><span>columns</span>: [<br />    {<span>type</span>:<span>'component'</span><span>, </span><span>component</span>:LogoItem}<br />  ]<br />}<span>,</span></pre>
+<p><strong>ClassName</strong> - название класса для таблицы. Нужно для регулирования размеров и стилей таблицы.</p>
+<p><span style="color: #ff0000;"><strong>Warning!</strong></span><em> Из-за ограничений Vue (обязателен только один корневой элемент у шаблона) есть небольшие ограничения в табличном виде компонента. А именно: нужно будет давать таблице свой класс, и стилями регулировать ширину колонок, т.к. ввиду упомянутых ограничений в разметке таблицы присутствуют теги &lt;div&gt; и она нарушается.</em></p>
+<p>Поле&nbsp;<span><strong>indentation</strong> устанавливает размер отступа дочерних элементов от родительского.</span></p>
+<p><span>Массив <strong>columns</strong> содержит объекты с дополнительными колонками таблицы. Объекты бывают двух типов (указывется в параметре <strong>type</strong>): </span></p>
+<ol>
+  <li><span><strong>html</strong> - в колонке таблицы будет отображен html-код, переданный в параметре <strong>html</strong> объекта.</span></li>
+  <li><span><strong>component</strong> -&nbsp;в колонке таблицы будет отображен vue-компонент, переданный в параметре <strong>component</strong> объекта (компонент нужно предварительно импортировать в коде, где вызывается dantserTree ).</span><span></span></li>
+</ol>
+<p><span>Компонент, передаваемый для отображения в колонках, должен иметь свойства props data, куда будет передан объект, характеризующий элемент дерева.</span></p>
+<h4><strong>События</strong></h4>
+<p>В компоненте предусмотрены следующие события:</p>
+<ol>
+  <li>'click-node' -&nbsp;Доступно только в обычном режиме. Содержит параметр - объект с данными элемента</li>
+  <li>'node-dblclick'-&nbsp;Доступно только в обычном режиме. Содержит параметр - объект с данными элемента</li>
+  <li>'node-select' - Доступно в обоих режимах.&nbsp;Содержит параметр - объект с данными элемента</li>
+  <li>'node-toggle' -&nbsp;Доступно в обоих режимах.&nbsp;Содержит параметр - объект с данными элемента</li>
+  <li>'ctx-menu'-&nbsp;Доступно только в обычном режиме.&nbsp;Содержит объект параметр, включающий 2 свойства:
+    <ol>
+      <li>объект события event,</li>
+      <li>и объект data с данными элемента</li>
+    </ol>
+  </li>
+  <li>'ctx-menu-td'-&nbsp;Доступно только в режиме таблицы.Содержит объект параметр, включающий 3 свойства :
+    <ol>
+      <li>cell - номер ячейки,</li>
+      <li>объект события event,</li>
+      <li>и объект data с данными элемента</li>
+    </ol>
+  </li>
+</ol>
+</body>
+</html>

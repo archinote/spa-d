@@ -1,0 +1,120 @@
+.d-tree {
+  position: relative;
+  cursor: default;
+  background: #fff;
+  &__empty-block {
+    position: relative;
+    min-height: 60px;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__empty-text {
+    color: #6f7180;
+  }
+  &__drop-indicator {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #409eff;
+  }
+  &-node {
+    outline: 0;
+    white-space: nowrap;
+    &__content {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 2px 0;
+    }
+    &__children {
+      overflow: hidden;
+      background-color: transparent;
+    }
+    &__expand-icon {
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+      color: #c0c4cc;
+      font-size: 12px;
+      transform: rotate(0);
+      transition: transform 0.3s ease-in-out;
+      &.is-leaf {
+        visibility: hidden;
+        color: transparent;
+        cursor: default;
+      }
+      &.expanded {
+        .v-icon {
+          transform: rotate(90deg);
+        }
+      }
+    }
+
+    &__checkbox {
+      flex: 0 1 5px;
+     // margin-right: 8px;
+      .v-input--checkbox{
+        margin: 0;
+        padding: 0;
+      }
+      .input-group__details {
+        display: none;
+      }
+    }
+  }
+}
+//@todo разобраться со стилями
+///-----------------------------///
+
+.d-tree-node:focus > .d-tree-node__content {
+  background-color: #f5f7fa;
+}
+
+.d-tree-node.is-drop-inner > .d-tree-node__content .d-tree-node__label {
+  background-color: #409eff;
+  color: #fff;
+}
+
+.d-tree-node__content:hover {
+  background-color: #f5f7fa;
+}
+
+.d-tree.is-dragging .d-tree-node__content {
+  cursor: move;
+}
+
+.d-tree.is-dragging .d-tree-node__content * {
+  pointer-events: none;
+}
+
+.d-tree.is-dragging.is-drop-not-allow .d-tree-node__content {
+  cursor: not-allowed;
+}
+
+.d-tree-node__label {
+  font-size: 14px;
+}
+
+.d-tree-node__loading-icon {
+  margin-right: 8px;
+  font-size: 14px;
+  color: #c0c4cc;
+}
+
+.d-tree-node > .d-tree-node__children {
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.d-tree-node.is-expanded > .d-tree-node__children {
+  display: block;
+}
+
+.d-tree--highlight-current .d-tree-node.is-current > .d-tree-node__content {
+  background-color: #f0f7ff;
+}

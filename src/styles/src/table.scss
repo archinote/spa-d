@@ -1,0 +1,15 @@
+.d-table {
+  display: flex;
+  flex-direction: column;
+  .v-table{
+      table-layout: fixed;
+  }
+  //Шапка таблицы
+  &__header-wrapper {
+  }
+  //Тело таблицы
+  &__body-wrapper {
+    flex: 1 1 auto;
+    overflow: auto;
+  }
+}

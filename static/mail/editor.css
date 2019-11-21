@@ -1,0 +1,8 @@
+body{
+    margin: 10px 0;
+}
+blockquote{
+    margin-left: 1rem;
+    padding-left: 1rem;
+    border-left: 1px dashed #d1d1d1;
+}

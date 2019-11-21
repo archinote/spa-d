@@ -1,0 +1,52 @@
+application: {}
+
+service:
+  type: ClusterIP
+  internalPort: 80
+  externalPort: 80
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    certmanager.k8s.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/tls-acme: "true"
+  baseHost: dantser.net
+  path: /
+  tls: true
+
+deployment:
+  spec_aux:
+    replicas: 1
+    revisionHistoryLimit: 5
+    minReadySeconds: 10
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: "25%"
+        maxSurge: 1
+  pod_spec_aux:
+    imagePullSecrets:
+      - name: gitlab-registry
+    terminationGracePeriodSeconds: 30
+  containers:
+    - name: '{{ include "name" . }}'
+      image:
+        repository: registry.gitlab.com/dantser/frontend/spa
+        tag: '{{ include "image.tag" . }}'
+        pullPolicy: Always
+      spec_aux:
+        resources: *resources
+
+
+resources: &resources
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    cpu: 30m
+    memory: 48Mi
+  requests:
+    cpu: 30m
+    memory: 48Mi

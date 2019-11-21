@@ -1,0 +1,73 @@
+//
+// Vue ransitions style.
+//
+
+// Fade
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .2s ease;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+.component-fade-enter-active, .component-fade-leave-active {
+  transition: opacity .3s ease;
+}
+.component-fade-enter, .component-fade-leave-to
+{
+  opacity: 0;
+}
+
+// Slide fade
+.slide-fade-enter-active {
+  transition: all .25s ease;
+}
+.slide-fade-leave-active {
+  transition: all .25s ease;
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  transform-origin: 0 0;
+  // transform: translateX(-50%);
+  // transform: scaleX(0);
+  transform: scaleX(0) translateX(-100%);
+  opacity: 0;
+}
+
+// Slide right
+.slide-right-enter-active, .slide-right-leave-active {
+  transition: 0.15s linear;
+}
+.slide-right-enter {
+  opacity: 0.25;
+  transform: translateX(-50%);
+}
+.slide-right-leave-to {
+  opacity: 0.25;
+  transform: translateX(50%);
+}
+
+// Slide left
+.slide-left-enter-active, .slide-left-leave-active {
+  transition: 0.15s linear;
+}
+.slide-left-enter {
+  opacity: 0.25;
+  transform: translateX(50%);
+}
+.slide-left-leave-to {
+  opacity: 0.25;
+  transform: translateX(-50%);
+}
+
+// Slide top
+.slide-top-enter-active, .slide-top-leave-active {
+  transition: 0.25s linear;
+}
+.slide-top-enter {
+  opacity: 0.25;
+  transform: translateY(35%);
+}
+.slide-top-leave-to {
+  opacity: 0.25;
+  transform: translateY(-35%);
+}

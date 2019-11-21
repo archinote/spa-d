@@ -1,0 +1,10 @@
+name: spa-frontend
+description: A Helm chart for Kubernetes
+version: 0.1
+home: https://dantser.net/
+sources:
+  - https://gitlab.com/dantser/frontend/spa
+maintainers:
+  - name: Vladimir Sukhonosov
+    email: founder.sl@gmail.com
+engine: gotpl

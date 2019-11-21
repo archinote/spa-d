@@ -1,0 +1,7 @@
+//НАстройик для карточки
+.dms-card {
+  &-flex {
+    display: flex!important;
+    flex-direction: column;
+  }
+}
