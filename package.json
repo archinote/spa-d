@@ -17,7 +17,7 @@
     "axios": "^0.18.0",
     "element-ui": "2.4.7",
     "gojs": "^1.8.33",
-    "highcharts": "6.1.3",
+    "highcharts": "8.2.0",
     "highcharts-vue": "1.2.0",
     "lodash": "^4.17.11",
     "material-design-icons": "^3.0.1",
